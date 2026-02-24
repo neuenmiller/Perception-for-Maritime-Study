@@ -9,24 +9,22 @@
   },
   "features": {
     "ghcr.io/devcontainers/features/desktop-lite:1": {
-      "version": "latest"
+      "version": "1.0.8"
     },
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   "runArgs": [
-    "--network=host",
-    "--ipc=host",
-    "--privileged"
+    "--ipc=host"
   ],
   "hostRequirements": {
-    "gpu": "optional" 
+    "gpu": "optional"
   },
   "customizations": {
     "vscode": {
       "settings": {
         "python.defaultInterpreterPath": "/usr/bin/python3",
         "ros.distro": "humble",
-        "C_Cpp.intelliSenseEngine": "disabled" 
+        "C_Cpp.intelliSenseEngine": "disabled"
       },
       "extensions": [
         "ms-iot.vscode-ros",
@@ -54,5 +52,5 @@
       "onAutoForward": "notify"
     }
   },
-  "postCreateCommand": "rosdep update && sudo apt-get update"
+  "postCreateCommand": "bash -lc 'if [ ! -f ~/.bootstrap_done ]; then echo \"First-time bootstrap...\"; sudo apt-get update; rosdep update; touch ~/.bootstrap_done; else echo \"Bootstrap already done.\"; fi'"
 }
