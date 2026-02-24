@@ -1,30 +1,58 @@
 {
-	"name": "Maritime ROS 2 Studio",
-	// This Image is the secret sauce. It has ROS 2 Humble pre-installed.
-	"image": "osrf/ros:humble-desktop-full",
-	"features": {
-		// Install Python tools
-		"ghcr.io/devcontainers/features/python:1": {},
-		// Install Git Large File Storage (For AI models)
-		"ghcr.io/devcontainers/features/git-lfs:1": {}
-	},
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"ms-vscode.cpptools",       // C++
-				"ms-python.python",         // Python
-				"ms-iot.vscode-ros",        // ROS Tools
-				"usernamehw.errorlens",     // Instant Errors
-				"eamodio.gitlens",          // Git History
-				"twxs.cmake"                // CMake Highlighting
-			]
-		}
-	},
-	// This command runs once when the machine wakes up.
-	// It installs Colcon (build tool) and the bridge for Foxglove.
-	"postCreateCommand": "sudo apt-get update && sudo apt-get install -y python3-colcon-common-extensions ros-humble-rosbridge-server && echo 'source /opt/ros/humble/setup.bash' >> ~/.bashrc",
-	
-	// Open Port 9090 so Foxglove on your laptop can see the cloud.
-	"forwardPorts": [9090],
-	"remoteUser": "root"
+  "name": "Maritime Autonomy Stack",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "..",
+    "args": {
+      "ROS_DISTRO": "humble"
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/desktop-lite:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "runArgs": [
+    "--network=host",
+    "--ipc=host",
+    "--privileged"
+  ],
+  "hostRequirements": {
+    "gpu": "optional" 
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/bin/python3",
+        "ros.distro": "humble",
+        "C_Cpp.intelliSenseEngine": "disabled" 
+      },
+      "extensions": [
+        "ms-iot.vscode-ros",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "llvm-vs-code-extensions.vscode-clangd",
+        "ms-vscode.cmake-tools",
+        "twxs.cmake",
+        "ms-azuretools.vscode-docker",
+        "redhat.vscode-yaml",
+        "redhat.vscode-xml",
+        "smilerobotics.urdf",
+        "charliermarsh.ruff",
+        "ms-toolsai.jupyter",
+        "usernamehw.errorlens",
+        "esbenp.prettier-vscode",
+        "github.vscode-github-actions"
+      ]
+    }
+  },
+  "forwardPorts": [6080],
+  "portsAttributes": {
+    "6080": {
+      "label": "VNC Desktop (Gazebo/Rviz)",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "rosdep update && sudo apt-get update"
 }
