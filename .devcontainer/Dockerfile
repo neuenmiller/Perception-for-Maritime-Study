@@ -30,9 +30,11 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # 3. Install Simulation Tools (Phase 2 - VRX/Gazebo)
-# (Note: VRX currently targets Gazebo Classic for Humble, but check VRX repo for updates)
+# VRX in this workspace depends on Gazebo Sim + ros_gz (e.g. gz-msgs9, gz-sim7).
 RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-gazebo-ros-pkgs \
+    ros-${ROS_DISTRO}-ros-gz \
+    ros-${ROS_DISTRO}-ros-gz-sim \
     && rm -rf /var/lib/apt/lists/*
 
 # 4. Install Perception Stack (Phase 5 & 7)
@@ -60,4 +62,4 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 
 USER $USERNAME
-WORKDIR /workspaces/autonomy_stack
+WORKDIR /workspaces/Perception-for-Maritime-Study

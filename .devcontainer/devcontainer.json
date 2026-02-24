@@ -1,5 +1,6 @@
 {
   "name": "Maritime Autonomy Stack",
+  "workspaceFolder": "/workspaces/Perception-for-Maritime-Study",
   "build": {
     "dockerfile": "Dockerfile",
     "context": "..",
@@ -27,6 +28,7 @@
         "C_Cpp.intelliSenseEngine": "disabled"
       },
       "extensions": [
+        "openai.chatgpt",
         "ms-iot.vscode-ros",
         "ms-python.python",
         "ms-python.vscode-pylance",

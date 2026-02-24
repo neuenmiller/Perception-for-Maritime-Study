@@ -1,0 +1,7 @@
+# External dependency clone (managed in its own git repo)
+src/vrx/
+
+# Colcon artifacts
+build/
+install/
+log/
